@@ -14,8 +14,6 @@ This project is a simple invoice generator built with ReactJS and TypeScript, ut
 * **PDF Export:**
     * Generate and download the invoice as a PDF document.
     * Modal view of the pdf.
-* **shadcn/ui Integration:**
-    * Beautiful and accessible UI components for a polished user experience.
 * **TypeScript:**
     * Strong typing for improved code quality and maintainability.
 * **Responsive Design:**
@@ -25,7 +23,6 @@ This project is a simple invoice generator built with ReactJS and TypeScript, ut
 
 * **ReactJS:** JavaScript library for building user interfaces.
 * **TypeScript:** Typed superset of JavaScript.
-* **shadcn/ui:** Re-usable components built using Radix UI and Tailwind CSS.
 * **Tailwind CSS:** Utility-first CSS framework.
 * **react-pdf & @react-pdf/renderer:** PDF generation in React.
 * **Vite:** Fast build tool and development server.
