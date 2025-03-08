@@ -24,7 +24,7 @@ const App: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-gray-100 p-10">
+    <div className="flex min-h-screen bg-gray-50 p-10">
       {/* Invoice Form Section */}
       <div className="w-1/2 bg-white shadow-lg p-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-4">Invoice Form</h2>

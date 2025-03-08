@@ -20,7 +20,7 @@ const InvoiceItem: React.FC<InvoiceItemProps> = ({ item, onChange, onRemove }) =
   };
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex flex-wrap items-end gap-2">
       {/* Description Field (Full-Width) */}
       <div className="w-full">
         <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
