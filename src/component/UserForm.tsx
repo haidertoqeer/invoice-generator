@@ -1,29 +1,29 @@
 import React, { useState } from 'react';
 
 interface UserFormProps {
-  onUserChange: (user: User) => void;
-}
-
-interface User {
-  name: string;
-  companyAddress: string;
-  phoneNumber: string;
-  logo: string | null; // Base64 encoded image or null
-}
- 
-const UserForm: React.FC<UserFormProps> = ({ onUserChange }) => {
-  const [user, setUser] = useState<User>({
-    name: '',
-    companyAddress: '',
-    phoneNumber: '',
-    logo: null,
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setUser({ ...user, [name]: value });
-    onUserChange({ ...user, [name]: value });
-  };
+    onUserChange: (user: User) => void;
+  }
+  
+  interface User {
+    name: string;
+    companyAddress: string;
+    phoneNumber: string;
+    logo: string | null;
+  }
+  
+  const UserForm: React.FC<UserFormProps> = ({ onUserChange }) => {
+    const [user, setUser] = useState<User>({
+      name: '',
+      companyAddress: '',
+      phoneNumber: '',
+      logo: null,
+    });
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setUser({ ...user, [name]: value });
+      onUserChange({ ...user, [name]: value });
+    };
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

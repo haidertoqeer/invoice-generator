@@ -16,29 +16,28 @@ const styles = StyleSheet.create({
   page: { padding: 20, fontFamily: 'Helvetica' },
   section: { margin: 10, padding: 10 },
   title: { fontSize: 24, textAlign: 'center', marginBottom: 20, fontFamily: 'Helvetica-Bold' },
-  table: { display: 'table', width: '100%', border: '1px solid #000' },
+  table: { display: 'table', width: '100%', border: '0.5px solid #ccc' }, // Thin borders
   tableRow: { flexDirection: 'row' },
   tableColHeader: {
-    width: '25%',
-    border: '1px solid #000',
+    border: '0.5px solid #ccc', // Thin borders
     backgroundColor: '#f0f0f0',
     padding: 4,
     fontSize: 13,
     fontFamily: 'Helvetica-Bold',
     textAlign: 'center',
   },
-  tableCol: { width: '25%', fontSize: 12, border: '1px solid #000', padding: 4, textAlign: 'center' },
+  tableCol: { fontSize: 12, border: '0.5px solid #ccc', padding: 4, textAlign: 'center' }, // Thin borders
   date: { fontSize: 12, textAlign: 'right', marginBottom: 10 },
-  totalsTable: { display: 'table', width: '50%', marginLeft: 'auto', marginTop: 10, border: '1px solid #000' },
+  totalsTable: { display: 'table', width: '50%', marginLeft: 'auto', marginTop: 10, border: '0.5px solid #ccc' }, // Thin borders
   totalsRow: { flexDirection: 'row' },
-  totalsCol: { fontSize: 12, width: '50%', border: '1px solid #000', padding: 2, textAlign: 'right' },
-  totalsColHeader: { fontSize: 13, width: '50%', border: '1px solid #000', padding: 2, fontFamily: 'Helvetica-Bold', textAlign: 'right' },
+  totalsCol: { fontSize: 12, width: '50%', border: '0.5px solid #ccc', padding: 2, textAlign: 'right' }, // Thin borders
+  totalsColHeader: { fontSize: 13, width: '50%', border: '0.5px solid #ccc', padding: 2, fontFamily: 'Helvetica-Bold', textAlign: 'right' }, // Thin borders
   totalTextFinal: { fontSize: 14, fontFamily: 'Helvetica-Bold' },
   userInfoSection: {
     flexDirection: 'row',
     marginBottom: 20,
     alignItems: 'flex-start',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   userInfoText: {
     fontSize: 12,
@@ -70,22 +69,22 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice }) => {
       <Page style={styles.page}>
         <View style={styles.section}>
           {/* User Info Section */}
-          <View>  {invoice.user?.logo && <Image style={styles.logo} src={invoice.user.logo} />}</View>
-          <View style={styles.userInfoSection}>  
+          <View>
+            {invoice.user?.logo && <Image style={styles.logo} src={invoice.user.logo} />}
+          </View>
+          <View style={styles.userInfoSection}>
             <View>
               {invoice.user?.name && <Text style={styles.userInfoText}>Name: {invoice.user.name}</Text>}
               {invoice.user?.companyAddress && <Text style={styles.userInfoText}>Address: {invoice.user.companyAddress}</Text>}
               {invoice.user?.phoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.user.phoneNumber}</Text>}
             </View>
-              {/* Client Info Section */}
-          <View style={styles.clientInfoSection}>
-            {invoice.client?.clientName && <Text style={styles.userInfoText}>Client Name: {invoice.client.clientName}</Text>}
-            {invoice.client?.clientCompanyName && <Text style={styles.userInfoText}>Company: {invoice.client.clientCompanyName}</Text>}
-            {invoice.client?.clientPhoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.client.clientPhoneNumber}</Text>}
+            {/* Client Info Section */}
+            <View style={styles.clientInfoSection}>
+              {invoice.client?.clientName && <Text style={styles.userInfoText}>Client Name: {invoice.client.clientName}</Text>}
+              {invoice.client?.clientCompanyName && <Text style={styles.userInfoText}>Company: {invoice.client.clientCompanyName}</Text>}
+              {invoice.client?.clientPhoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.client.clientPhoneNumber}</Text>}
+            </View>
           </View>
-          </View>
-
-        
 
           <Text style={styles.date}>Date: {currentDate}</Text>
           <Text style={styles.title}>Invoice</Text>
@@ -93,17 +92,19 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice }) => {
           {/* Table */}
           <View style={styles.table}>
             <View style={styles.tableRow}>
-              <Text style={styles.tableColHeader}>Description</Text>
-              <Text style={styles.tableColHeader}>Price</Text>
-              <Text style={styles.tableColHeader}>Quantity</Text>
-              <Text style={styles.tableColHeader}>Total</Text>
+              <Text style={{ ...styles.tableColHeader, width: '10%' }}>S.No</Text>
+              <Text style={{ ...styles.tableColHeader, width: '30%' }}>Description</Text>
+              <Text style={{ ...styles.tableColHeader, width: '20%' }}>Price</Text>
+              <Text style={{ ...styles.tableColHeader, width: '20%' }}>Quantity</Text>
+              <Text style={{ ...styles.tableColHeader, width: '20%' }}>Total</Text>
             </View>
             {invoice.items.map((item, index) => (
               <View style={styles.tableRow} key={index}>
-                <Text style={styles.tableCol}>{item.description}</Text>
-                <Text style={styles.tableCol}>${item.price.toFixed(2)}</Text>
-                <Text style={styles.tableCol}>{item.quantity}</Text>
-                <Text style={styles.tableCol}>${(item.price * item.quantity).toFixed(2)}</Text>
+                <Text style={{ ...styles.tableCol, width: '10%' }}>{index + 1}</Text>
+                <Text style={{ ...styles.tableCol, width: '30%' }}>{item.description}</Text>
+                <Text style={{ ...styles.tableCol, width: '20%' }}>${item.price.toFixed(2)}</Text>
+                <Text style={{ ...styles.tableCol, width: '20%' }}>{item.quantity}</Text>
+                <Text style={{ ...styles.tableCol, width: '20%' }}>${(item.price * item.quantity).toFixed(2)}</Text>
               </View>
             ))}
           </View>

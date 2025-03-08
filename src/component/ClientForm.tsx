@@ -1,28 +1,28 @@
 import React, { useState } from 'react';
 
 interface ClientFormProps {
-  onClientChange: (client: Client) => void;
-}
-
-interface Client {
-  clientName: string;
-  clientCompanyName: string;
-  clientPhoneNumber: string;
-}
-
-const ClientForm: React.FC<ClientFormProps> = ({ onClientChange }) => {
-  const [client, setClient] = useState<Client>({
-    clientName: '',
-    clientCompanyName: '',
-    clientPhoneNumber: '',
-  });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setClient({ ...client, [name]: value });
-    onClientChange({ ...client, [name]: value });
-  };
-
+    onClientChange: (client: Client) => void;
+  }
+  
+  interface Client {
+    clientName: string;
+    clientCompanyName: string;
+    clientPhoneNumber: string;
+  }
+  
+  const ClientForm: React.FC<ClientFormProps> = ({ onClientChange }) => {
+    const [client, setClient] = useState<Client>({
+      clientName: '',
+      clientCompanyName: '',
+      clientPhoneNumber: '',
+    });
+  
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setClient({ ...client, [name]: value });
+      onClientChange({ ...client, [name]: value });
+    };
+  
   return (
     <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-300 mb-4">
       <h2 className="text-xl font-semibold text-gray-800 mb-4">Client Details</h2>

@@ -36,24 +36,22 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
           {invoice.user?.logo && (
             <img src={invoice.user.logo} alt="User Logo" className="max-h-40 mb-2" />
           )}
-          <p>{invoice.user?.name}</p>
-          <p>{invoice.user?.companyAddress}</p>
-          <p>{invoice.user?.phoneNumber}</p>
+          {invoice.user?.name && <p>{invoice.user.name}</p>}
+          {invoice.user?.companyAddress && <p>{invoice.user.companyAddress}</p>}
+          {invoice.user?.phoneNumber && <p>{invoice.user.phoneNumber}</p>}
         </div>
         <div>
           <p><strong>To:</strong></p>
-          <p>{invoice.client?.clientName}</p>
-          <p>{invoice.client?.clientCompanyName}</p>
-          <p>{invoice.client?.clientPhoneNumber}</p>
+          {invoice.client?.clientName && <p>{invoice.client.clientName}</p>}
+          {invoice.client?.clientCompanyName && <p>{invoice.client.clientCompanyName}</p>}
+          {invoice.client?.clientPhoneNumber && <p>{invoice.client.clientPhoneNumber}</p>}
         </div>
-        {/* <div>
-          <h2 className="text-lg font-semibold">Invoice Preview</h2>
-        </div> */}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded-lg">
           <thead className="bg-gray-200">
             <tr>
+              <th className="border border-gray-300 px-2 py-2 text-left" style={{ width: '60px' }}>S.No</th>
               <th className="border border-gray-300 px-4 py-2 text-left">Description</th>
               <th className="border border-gray-300 px-4 py-2 text-right">Price</th>
               <th className="border border-gray-300 px-4 py-2 text-right">Quantity</th>
@@ -63,6 +61,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
           <tbody>
             {invoice.items.map((item, index) => (
               <tr key={index} className="border border-gray-300">
+                <td className="border border-gray-300 px-2 py-2 text-left">{index + 1}</td>
                 <td className="border border-gray-300 px-4 py-2">{item.description}</td>
                 <td className="border border-gray-300 px-4 py-2 text-right">
                   {currencySymbol}{item.price.toFixed(2)}
@@ -74,7 +73,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
               </tr>
             ))}
             <tr className="bg-gray-100 font-semibold">
-              <td colSpan={3} className="border border-gray-300 px-4 py-2 text-right">Subtotal</td>
+              <td colSpan={4} className="border border-gray-300 px-4 py-2 text-right">Subtotal</td>
               <td className="border border-gray-300 px-4 py-2 text-right">
                 {currencySymbol}{calculateSubtotal().toFixed(2)}
               </td>
