@@ -1,11 +1,11 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import { Invoice } from '../types/Invoice';
 
 // Register fonts for bold styling
 Font.register({
   family: 'Helvetica-Bold',
-  src: 'https://fonts.gstatic.com/s/helvetica/Helvetica-Bold.ttf'
+  src: 'https://fonts.gstatic.com/s/helvetica/Helvetica-Bold.ttf',
 });
 
 interface PdfDocumentProps {
@@ -25,17 +25,29 @@ const styles = StyleSheet.create({
     padding: 4,
     fontSize: 13,
     fontFamily: 'Helvetica-Bold',
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  tableCol: { width: '25%',fontSize: 12,  border: '1px solid #000', padding: 4, textAlign: 'center' },
+  tableCol: { width: '25%', fontSize: 12, border: '1px solid #000', padding: 4, textAlign: 'center' },
   date: { fontSize: 12, textAlign: 'right', marginBottom: 10 },
-  // Wrapper for aligning totals to the right
   totalsTable: { display: 'table', width: '50%', marginLeft: 'auto', marginTop: 10, border: '1px solid #000' },
   totalsRow: { flexDirection: 'row' },
   totalsCol: { fontSize: 12, width: '50%', border: '1px solid #000', padding: 2, textAlign: 'right' },
   totalsColHeader: { fontSize: 13, width: '50%', border: '1px solid #000', padding: 2, fontFamily: 'Helvetica-Bold', textAlign: 'right' },
-
-  totalTextFinal: { fontSize: 14, fontFamily: 'Helvetica-Bold' }
+  totalTextFinal: { fontSize: 14, fontFamily: 'Helvetica-Bold' },
+  userInfoSection: {
+    flexDirection: 'row',
+    marginBottom: 20,
+    alignItems: 'flex-start',
+  },
+  userInfoText: {
+    fontSize: 12,
+    marginBottom: 2,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    marginRight: 20,
+  },
 });
 
 const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice }) => {
@@ -46,16 +58,25 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice }) => {
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
     return new Intl.DateTimeFormat('en-US', options).format(date);
   };
-  
+
   const currentDate = formatDate(new Date());
-
-
 
   return (
     <Document>
       <Page style={styles.page}>
         <View style={styles.section}>
-        <Text style={styles.date}>Date: {currentDate}</Text>
+          {/* User Info Section */}
+          <View> {invoice.user?.logo && <Image style={styles.logo} src={invoice.user.logo} />}</View>
+          <View style={styles.userInfoSection}>
+           
+            <View>
+              {invoice.user?.name && <Text style={styles.userInfoText}>Name: {invoice.user.name}</Text>}
+              {invoice.user?.companyAddress && <Text style={styles.userInfoText}>Address: {invoice.user.companyAddress}</Text>}
+              {invoice.user?.phoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.user.phoneNumber}</Text>}
+            </View>
+          </View>
+
+          <Text style={styles.date}>Date: {currentDate}</Text>
           <Text style={styles.title}>Invoice</Text>
 
           {/* Table */}
@@ -95,7 +116,6 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice }) => {
               <Text style={[styles.totalsColHeader]}>${calculateTotal().toFixed(2)}</Text>
             </View>
           </View>
-
         </View>
       </Page>
     </Document>

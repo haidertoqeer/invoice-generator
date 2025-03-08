@@ -3,10 +3,9 @@ import { Invoice } from '../types/Invoice';
 
 interface InvoicePreviewProps {
   invoice: Invoice;
-  currency: string; // New prop for currency selection
+  currency: string;
 }
 
-// Currency symbols mapping
 const CURRENCY_SYMBOLS: { [key: string]: string } = {
   USD: '$',
   EUR: '€',
@@ -16,7 +15,7 @@ const CURRENCY_SYMBOLS: { [key: string]: string } = {
 };
 
 const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) => {
-  const currencySymbol = CURRENCY_SYMBOLS[currency] || currency; // Default to code if symbol not found
+  const currencySymbol = CURRENCY_SYMBOLS[currency] || currency;
 
   const calculateSubtotal = () => {
     return invoice.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -32,7 +31,19 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
 
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg">
-      <h2 className="text-lg font-semibold mb-4">Invoice Preview</h2>
+      <div className="flex justify-between items-start mb-4">
+        <div>
+          {invoice.user?.logo && (
+            <img src={invoice.user.logo} alt="User Logo" className="max-h-40 mb-2" />
+          )}
+          <p>{invoice.user?.name}</p>
+          <p>{invoice.user?.companyAddress}</p>
+          <p>{invoice.user?.phoneNumber}</p>
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold">Invoice Preview</h2>
+        </div>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded-lg">
           <thead className="bg-gray-200">
@@ -56,8 +67,6 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
                 </td>
               </tr>
             ))}
-
-            {/* Subtotal Row */}
             <tr className="bg-gray-100 font-semibold">
               <td colSpan={3} className="border border-gray-300 px-4 py-2 text-right">Subtotal</td>
               <td className="border border-gray-300 px-4 py-2 text-right">
@@ -67,22 +76,26 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
           </tbody>
         </table>
       </div>
-
-      {/* Summary Table */}
       <div className="mt-4 flex justify-end">
         <table className="w-1/3 border border-gray-300 text-right">
           <tbody>
             <tr>
               <td className="border border-gray-300 px-4 py-2">VAT ({invoice.vatRate}%)</td>
-              <td className="border border-gray-300 px-4 py-2">{currencySymbol}{calculateVAT().toFixed(2)}</td>
+              <td className="border border-gray-300 px-4 py-2">
+                {currencySymbol}{calculateVAT().toFixed(2)}
+              </td>
             </tr>
             <tr>
               <td className="border border-gray-300 px-4 py-2">Discount</td>
-              <td className="border border-gray-300 px-4 py-2">-{currencySymbol}{invoice.discount.toFixed(2)}</td>
+              <td className="border border-gray-300 px-4 py-2">
+                -{currencySymbol}{invoice.discount.toFixed(2)}
+              </td>
             </tr>
             <tr className="font-bold">
               <td className="border border-gray-300 px-4 py-2">Total</td>
-              <td className="border border-gray-300 px-4 py-2">{currencySymbol}{calculateTotal().toFixed(2)}</td>
+              <td className="border border-gray-300 px-4 py-2">
+                {currencySymbol}{calculateTotal().toFixed(2)}
+              </td>
             </tr>
           </tbody>
         </table>

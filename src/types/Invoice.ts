@@ -8,4 +8,15 @@ export interface InvoiceItem {
     items: InvoiceItem[];
     vatRate: number;
     discount: number;
+    user?: {
+      name: string;
+      companyAddress: string;
+      phoneNumber: string;
+      logo: string | null;
+    };
+    client?: {
+      clientName: string;
+      clientCompanyName: string;
+      clientPhoneNumber: string;
+    };
   }
