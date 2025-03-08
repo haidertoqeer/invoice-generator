@@ -31,22 +31,24 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
 
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg">
-      <div className="flex justify-between items-end mb-4">
-        <div>
-          {invoice.user?.logo && (
-            <img src={invoice.user.logo} alt="User Logo" className="max-h-40 mb-2" />
-          )}
-          {invoice.user?.name && <p>{invoice.user.name}</p>}
-          {invoice.user?.companyAddress && <p>{invoice.user.companyAddress}</p>}
-          {invoice.user?.phoneNumber && <p>{invoice.user.phoneNumber}</p>}
-        </div>
-        <div>
-          <p><strong>To:</strong></p>
-          {invoice.client?.clientName && <p>{invoice.client.clientName}</p>}
-          {invoice.client?.clientCompanyName && <p>{invoice.client.clientCompanyName}</p>}
-          {invoice.client?.clientPhoneNumber && <p>{invoice.client.clientPhoneNumber}</p>}
-        </div>
-      </div>
+      <div> {invoice.user?.logo && (
+      <img src={invoice.user.logo} alt="User Logo" className="max-h-40 mb-2" />
+    )}</div>
+      <div className="flex justify-between mb-4">
+        
+  <div className="w-1/2 pr-2"> {/* 50% width with some right padding */}
+   
+    {invoice.user?.name && <p className="break-words">{invoice?.user?.name}</p>}
+    {invoice.user?.companyAddress && <p className="break-words">{invoice?.user?.companyAddress}</p>}
+    {invoice.user?.phoneNumber && <p className="break-words">{invoice?.user?.phoneNumber}</p>}
+  </div>
+  <div className="w-1/2 pl-2"> {/* 50% width with some left padding */}
+    <p><strong>To:</strong></p>
+    {invoice.client?.clientName && <p className="break-words">{invoice?.client?.clientName}</p>}
+    {invoice.client?.clientCompanyName && <p className="break-words">{invoice?.client?.clientCompanyName}</p>}
+    {invoice.client?.clientPhoneNumber && <p className="break-words">{invoice?.client?.clientPhoneNumber}</p>}
+  </div>
+</div>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded-lg">
           <thead className="bg-gray-200">

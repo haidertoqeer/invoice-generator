@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InvoiceItem, { InvoiceItem as InvoiceItemType } from "./InvoiceItem";
 import UserForm from "./UserForm";
-import ClientForm from "./ClientForm"; // Import ClientForm
+import ClientForm from "./ClientForm";
 import { Invoice } from "../types/Invoice";
 
 interface InvoiceFormProps {
@@ -18,9 +18,9 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ invoice, setInvoice }) => {
   });
 
   const [client, setClient] = useState({
-    clientName: '',
-    clientCompanyName: '',
-    clientPhoneNumber: '',
+    clientName: "",
+    clientCompanyName: "",
+    clientPhoneNumber: "",
   });
 
   const handleUserChange = (updatedUser: any) => {
@@ -47,26 +47,30 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ invoice, setInvoice }) => {
   };
 
   const handleRemoveItem = (index: number) => {
-    if (invoice.items.length === 1) return; // Prevent removing the last item
+    if (invoice.items.length === 1) return;
     const newItems = invoice.items.filter((_, i) => i !== index);
     setInvoice((prev) => ({ ...prev, items: newItems }));
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    let newValue = parseFloat(value) || 0;
-    if (newValue < 0) newValue = 0; // Prevent negative values
+    let newValue: number | string = value; // Allow empty string
+    if (name === "vatRate" || name === "discount") {
+      newValue = value === "" ? 0 : parseFloat(value); // Handle empty string as 0 for numeric fields
+      if (typeof newValue === 'number' && newValue < 0) newValue = 0;
+    }
     setInvoice({ ...invoice, [name]: newValue });
   };
 
   return (
     <div>
       <UserForm onUserChange={handleUserChange} />
-      <ClientForm onClientChange={handleClientChange} /> {/* Add ClientForm */}
+      <ClientForm onClientChange={handleClientChange} />
       <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-300">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Invoice Details</h2>
+        <h2 className="text-xl font-semibold text-gray-800 mb-4">
+          Invoice Details
+        </h2>
 
-        {/* Invoice Items */}
         <div className="space-y-4">
           {invoice.items.map((item, index) => (
             <div key={index} className="border border-gray-300 rounded-lg p-4">
@@ -82,7 +86,6 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ invoice, setInvoice }) => {
           ))}
         </div>
 
-        {/* Add Item Button */}
         <button
           className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded"
           onClick={handleAddItem}
@@ -90,7 +93,6 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ invoice, setInvoice }) => {
           + Add Item
         </button>
 
-        {/* VAT & Discount Fields */}
         <div className="mt-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">

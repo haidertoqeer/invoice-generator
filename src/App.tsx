@@ -23,6 +23,15 @@ const App: React.FC = () => {
   const [currency, setCurrency] = useState("USD");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleRenderPdf = () => {
+    const validatedInvoice = {
+      ...invoice,
+      vatRate: typeof invoice.vatRate === "number" ? invoice.vatRate : 0,
+      discount: typeof invoice.discount === "number" ? invoice.discount : 0,
+    };
+    return <PdfDocument invoice={validatedInvoice} currency={currency} />;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-10">
       <div className="flex flex-col md:flex-row gap-4">
@@ -33,7 +42,9 @@ const App: React.FC = () => {
 
           {/* Currency Selector */}
           <div className="mt-2">
-            <label className="text-sm font-medium text-gray-700">Select Currency:</label>
+            <label className="text-sm font-medium text-gray-700">
+              Select Currency:
+            </label>
             <select
               value={currency}
               onChange={(e) => setCurrency(e.target.value)}
@@ -63,7 +74,10 @@ const App: React.FC = () => {
             >
               Preview PDF
             </button>
-            <PDFDownloadLink document={<PdfDocument invoice={invoice} currency={currency} />} fileName="invoice.pdf">
+            <PDFDownloadLink
+              document={handleRenderPdf()}
+              fileName="invoice.pdf"
+            >
               {({ loading }) => (
                 <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-md hover:bg-gray-100 w-full sm:w-auto">
                   {loading ? "Loading..." : "Download PDF"}
@@ -81,7 +95,7 @@ const App: React.FC = () => {
             <h2 className="text-xl font-semibold mb-2">Invoice PDF Preview</h2>
             <div className="h-[300px] md:h-[500px] overflow-hidden">
               <PDFViewer style={{ width: "100%", height: "100%" }}>
-                <PdfDocument invoice={invoice} currency={currency} />
+                {handleRenderPdf()}
               </PDFViewer>
             </div>
             <button
