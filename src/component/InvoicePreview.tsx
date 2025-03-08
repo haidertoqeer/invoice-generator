@@ -31,7 +31,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
 
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg">
-      <div className="flex justify-between items-start mb-4">
+      <div className="flex justify-between items-end mb-4">
         <div>
           {invoice.user?.logo && (
             <img src={invoice.user.logo} alt="User Logo" className="max-h-40 mb-2" />
@@ -41,8 +41,14 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
           <p>{invoice.user?.phoneNumber}</p>
         </div>
         <div>
-          <h2 className="text-lg font-semibold">Invoice Preview</h2>
+          <p><strong>To:</strong></p>
+          <p>{invoice.client?.clientName}</p>
+          <p>{invoice.client?.clientCompanyName}</p>
+          <p>{invoice.client?.clientPhoneNumber}</p>
         </div>
+        {/* <div>
+          <h2 className="text-lg font-semibold">Invoice Preview</h2>
+        </div> */}
       </div>
       <div className="overflow-x-auto">
         <table className="w-full border border-gray-300 rounded-lg">

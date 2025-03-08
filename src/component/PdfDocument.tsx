@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 20,
     alignItems: 'flex-start',
+    justifyContent: 'space-between'
   },
   userInfoText: {
     fontSize: 12,
@@ -47,6 +48,9 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginRight: 20,
+  },
+  clientInfoSection: {
+    marginBottom: 10,
   },
 });
 
@@ -66,15 +70,22 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice }) => {
       <Page style={styles.page}>
         <View style={styles.section}>
           {/* User Info Section */}
-          <View> {invoice.user?.logo && <Image style={styles.logo} src={invoice.user.logo} />}</View>
-          <View style={styles.userInfoSection}>
-           
+          <View>  {invoice.user?.logo && <Image style={styles.logo} src={invoice.user.logo} />}</View>
+          <View style={styles.userInfoSection}>  
             <View>
               {invoice.user?.name && <Text style={styles.userInfoText}>Name: {invoice.user.name}</Text>}
               {invoice.user?.companyAddress && <Text style={styles.userInfoText}>Address: {invoice.user.companyAddress}</Text>}
               {invoice.user?.phoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.user.phoneNumber}</Text>}
             </View>
+              {/* Client Info Section */}
+          <View style={styles.clientInfoSection}>
+            {invoice.client?.clientName && <Text style={styles.userInfoText}>Client Name: {invoice.client.clientName}</Text>}
+            {invoice.client?.clientCompanyName && <Text style={styles.userInfoText}>Company: {invoice.client.clientCompanyName}</Text>}
+            {invoice.client?.clientPhoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.client.clientPhoneNumber}</Text>}
           </View>
+          </View>
+
+        
 
           <Text style={styles.date}>Date: {currentDate}</Text>
           <Text style={styles.title}>Invoice</Text>

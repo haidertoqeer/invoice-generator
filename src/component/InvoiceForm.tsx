@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import InvoiceItem, { InvoiceItem as InvoiceItemType } from "./InvoiceItem";
 import UserForm from "./UserForm";
-import { Invoice } from "../types/Invoice"; // Ensure you have the Invoice type defined
+import ClientForm from "./ClientForm"; // Import ClientForm
+import { Invoice } from "../types/Invoice";
 
 interface InvoiceFormProps {
   invoice: Invoice;
@@ -16,9 +17,20 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ invoice, setInvoice }) => {
     logo: null,
   });
 
+  const [client, setClient] = useState({
+    clientName: '',
+    clientCompanyName: '',
+    clientPhoneNumber: '',
+  });
+
   const handleUserChange = (updatedUser: any) => {
     setUser(updatedUser);
     setInvoice((prev) => ({ ...prev, user: updatedUser }));
+  };
+
+  const handleClientChange = (updatedClient: any) => {
+    setClient(updatedClient);
+    setInvoice((prev) => ({ ...prev, client: updatedClient }));
   };
 
   const handleItemChange = (index: number, updatedItem: InvoiceItemType) => {
@@ -50,6 +62,7 @@ const InvoiceForm: React.FC<InvoiceFormProps> = ({ invoice, setInvoice }) => {
   return (
     <div>
       <UserForm onUserChange={handleUserChange} />
+      <ClientForm onClientChange={handleClientChange} /> {/* Add ClientForm */}
       <div className="bg-white shadow-lg rounded-lg p-6 border border-gray-300">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">Invoice Details</h2>
 

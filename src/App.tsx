@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InvoiceForm from "./component/InvoiceForm";
 import InvoicePreview from "./component/InvoicePreview";
 import { Invoice } from "./types/Invoice";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer"; // Import PDFViewer
 import PdfDocument from "./component/PdfDocument";
 
 const CURRENCY_OPTIONS = [
@@ -78,7 +78,9 @@ const App: React.FC = () => {
           <div className="bg-white p-6 rounded-lg shadow-lg w-3/4 max-w-3xl">
             <h2 className="text-xl font-semibold mb-4">Invoice PDF Preview</h2>
             <div className="h-[500px] overflow-hidden">
-              <PdfDocument invoice={invoice} currency={currency} />
+              <PDFViewer style={{ width: "100%", height: "100%" }}>
+                <PdfDocument invoice={invoice} currency={currency} />
+              </PDFViewer>
             </div>
             <button
               onClick={() => setIsModalOpen(false)}
