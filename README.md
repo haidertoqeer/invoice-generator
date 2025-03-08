@@ -1,4 +1,4 @@
-# Invoice Generator (ReactJS with TypeScript & shadcn/ui)
+# Invoice Generator (ReactJS with TypeScript)
 
 This project is a simple invoice generator built with ReactJS and TypeScript, utilizing the beautiful UI components from shadcn/ui. It allows users to create invoices with multiple items, apply VAT and discounts, and export the invoice as a PDF.
 
