@@ -12,7 +12,7 @@ const Navigation = () => {
   const isAppRoute = location.pathname === '/app';
 
   return (
-    <nav className="p-4 bg-gray-50 flex justify-end">
+    <nav className="p-4 bg-gray-900 flex justify-end">
       {isAppRoute ? (
         <Link to="/" className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
           Home
