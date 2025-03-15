@@ -4,6 +4,7 @@ import InvoicePreview from "./component/InvoicePreview";
 import { Invoice } from "./types/Invoice";
 import { PDFDownloadLink, PDFViewer } from "@react-pdf/renderer";
 import PdfDocument from "./component/PdfDocument";
+import { Link } from "react-router-dom";
 
 const CURRENCY_OPTIONS = [
   { code: "USD", symbol: "$" },
@@ -34,6 +35,11 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 md:p-10">
+    <div className="flex justify-end p-4">
+    <Link to="http://invoice-generator.anamtaa.com/" className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+    Go To Home
+    </Link>
+    </div>
       <div className="flex flex-col md:flex-row gap-4">
         {/* Invoice Form Section */}
         <div className="w-full md:w-1/2 bg-white shadow-lg p-4 rounded-lg">
