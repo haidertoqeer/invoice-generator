@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
 });
 
 const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice, currency }) => {
-  const calculateSubtotal = () => invoice.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const calculateVAT = () => calculateSubtotal() * (invoice.vatRate / 100);
-  const calculateTotal = () => calculateSubtotal() + calculateVAT() - invoice.discount;
+  const calculateSubtotal = () => invoice.items.reduce((acc, item) => acc + ((item.price || 0) * (item.quantity || 0)), 0);
+  const calculateVAT = () => calculateSubtotal() * ((invoice.vatRate || 0) / 100);
+  const calculateTotal = () => calculateSubtotal() + calculateVAT() - (invoice.discount || 0);  
   const formatDate = (date: Date) => {
     const options: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long', year: 'numeric' };
     return new Intl.DateTimeFormat('en-US', options).format(date);
@@ -79,18 +79,20 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice, currency }) => {
       <Page style={styles.page}>
         <View style={styles.section}>
           <View>
-            {invoice.user?.logo && <Image style={styles.logo} src={{ uri: invoice.user.logo }} />}
+          {invoice.user?.logo ? <Image style={styles.logo} src={invoice.user.logo} /> : null}
           </View>
           <View style={styles.userInfoSection}>
             <View>
-              {invoice.user?.name && <Text style={styles.userInfoText}>Name: {invoice.user.name}</Text>}
-              {invoice.user?.companyAddress && <Text style={styles.userInfoText}>Address: {invoice.user.companyAddress}</Text>}
-              {invoice.user?.phoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.user.phoneNumber}</Text>}
+            <Text style={styles.userInfoText}>Name: {invoice.user?.name || "N/A"}</Text>
+<Text style={styles.userInfoText}>Address: {invoice.user?.companyAddress || "N/A"}</Text>
+<Text style={styles.userInfoText}>Phone: {invoice.user?.phoneNumber || "N/A"}</Text>
+
             </View>
             <View style={styles.clientInfoSection}>
-              {invoice.client?.clientName && <Text style={styles.userInfoText}>Client Name: {invoice.client.clientName}</Text>}
-              {invoice.client?.clientCompanyName && <Text style={styles.userInfoText}>Company: {invoice.client.clientCompanyName}</Text>}
-              {invoice.client?.clientPhoneNumber && <Text style={styles.userInfoText}>Phone: {invoice.client.clientPhoneNumber}</Text>}
+            <Text style={styles.userInfoText}>Client Name: {invoice.client?.clientName || "N/A"}</Text>
+<Text style={styles.userInfoText}>Company: {invoice.client?.clientCompanyName || "N/A"}</Text>
+<Text style={styles.userInfoText}>Phone: {invoice.client?.clientPhoneNumber || "N/A"}</Text>
+
             </View>
           </View>
 
@@ -105,33 +107,44 @@ const PdfDocument: React.FC<PdfDocumentProps> = ({ invoice, currency }) => {
               <Text style={{ ...styles.tableColHeader, width: '20%' }}>Quantity</Text>
               <Text style={{ ...styles.tableColHeader, width: '20%' }}>Total</Text>
             </View>
-            {invoice.items.map((item, index) => (
-              <View style={styles.tableRow} key={index}>
-                <Text style={{ ...styles.tableCol, width: '10%' }}>{index + 1}</Text>
-                <Text style={{ ...styles.tableCol, width: '30%' }}>{item.description}</Text>
-                <Text style={{ ...styles.tableCol, width: '20%' }}>{currencySymbol}{item.price.toFixed(2)}</Text>
-                <Text style={{ ...styles.tableCol, width: '20%' }}>{item.quantity}</Text>
-                <Text style={{ ...styles.tableCol, width: '20%' }}>{currencySymbol}{(item.price * item.quantity).toFixed(2)}</Text>
-              </View>
-            ))}
+            {invoice.items.length > 0 ? (
+  invoice.items.map((item, index) => (
+    <View style={styles.tableRow} key={index}>
+      <Text style={{ ...styles.tableCol, width: '10%' }}>{index + 1}</Text>
+      <Text style={{ ...styles.tableCol, width: '30%' }}>{item.description?.trim() || "N/A"}</Text>
+      <Text style={{ ...styles.tableCol, width: '20%' }}>
+        {currencySymbol}{(item.price || 0).toFixed(2)}
+      </Text>
+      <Text style={{ ...styles.tableCol, width: '20%' }}>{item.quantity || 0}</Text>
+      <Text style={{ ...styles.tableCol, width: '20%' }}>
+        {currencySymbol}{((item.price || 0) * (item.quantity || 0)).toFixed(2)}
+      </Text>
+    </View>
+  ))
+) : (
+  <View style={styles.tableRow}>
+    <Text style={{ ...styles.tableCol, width: '100%' }}>No items available</Text>
+  </View>
+)}
+
           </View>
 
           <View style={styles.totalsTable}>
             <View style={styles.totalsRow}>
               <Text style={styles.totalsCol}>Subtotal:</Text>
-              <Text style={styles.totalsCol}>{currencySymbol}{calculateSubtotal().toFixed(2)}</Text>
+              <Text style={styles.totalsCol}>{currencySymbol}{(calculateSubtotal() || 0).toFixed(2)}</Text>
             </View>
             <View style={styles.totalsRow}>
               <Text style={styles.totalsCol}>VAT ({invoice.vatRate}%):</Text>
-              <Text style={styles.totalsCol}>{currencySymbol}{calculateVAT().toFixed(2)}</Text>
+              <Text style={styles.totalsCol}>{currencySymbol}{(calculateVAT() || 0).toFixed(2)}</Text>
             </View>
             <View style={styles.totalsRow}>
               <Text style={styles.totalsCol}>Discount:</Text>
-              <Text style={styles.totalsCol}>-{currencySymbol}{invoice.discount.toFixed(2)}</Text>
+              <Text style={styles.totalsCol}>-{currencySymbol}{(invoice.discount || 0).toFixed(2)}</Text>
             </View>
             <View style={styles.totalsRow}>
               <Text style={[styles.totalsColHeader]}>Total:</Text>
-              <Text style={[styles.totalsColHeader]}>{currencySymbol}{calculateTotal().toFixed(2)}</Text>
+              <Text style={styles.totalsColHeader}>{currencySymbol}{(calculateTotal() || 0).toFixed(2)}</Text>
             </View>
           </View>
         </View>

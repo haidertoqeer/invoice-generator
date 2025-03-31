@@ -18,21 +18,21 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
   const currencySymbol = CURRENCY_SYMBOLS[currency] || currency;
 
   const calculateSubtotal = () => {
-    return invoice.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    return invoice.items.reduce((acc, item) => acc + (Number(item.price) || 0) * (Number(item.quantity) || 0), 0);
   };
-
+  
   const calculateVAT = () => {
-    return calculateSubtotal() * (invoice.vatRate / 100);
+    return calculateSubtotal() * ((Number(invoice.vatRate) || 0) / 100);
   };
-
+  
   const calculateTotal = () => {
-    return calculateSubtotal() + calculateVAT() - invoice.discount;
+    return calculateSubtotal() + calculateVAT() - (Number(invoice.discount) || 0);
   };
-
+  
   return (
     <div className="p-4 bg-white shadow-lg rounded-lg">
       <div> {invoice.user?.logo && (
-      <img src={invoice.user.logo} alt="User Logo" className="max-h-40 mb-2" />
+      <img src={invoice.user.logo} alt="User Logo" className="max-h-20 mb-2" />
     )}</div>
       <div className="flex justify-between mb-4">
         
@@ -61,7 +61,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
             </tr>
           </thead>
           <tbody>
-            {invoice.items.map((item, index) => (
+            {invoice?.items?.map((item, index) => (
               <tr key={index} className="border border-gray-300">
                 <td className="border border-gray-300 px-2 py-2 text-left">{index + 1}</td>
                 <td className="border border-gray-300 px-4 py-2">{item.description}</td>
@@ -87,7 +87,7 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
         <table className="w-1/3 border border-gray-300 text-right">
           <tbody>
             <tr>
-              <td className="border border-gray-300 px-4 py-2">VAT ({invoice.vatRate}%)</td>
+              <td className="border border-gray-300 px-4 py-2">VAT&nbsp;({invoice.vatRate}%)</td>
               <td className="border border-gray-300 px-4 py-2">
                 {currencySymbol}{calculateVAT().toFixed(2)}
               </td>
@@ -95,8 +95,8 @@ const InvoicePreview: React.FC<InvoicePreviewProps> = ({ invoice, currency }) =>
             <tr>
               <td className="border border-gray-300 px-4 py-2">Discount</td>
               <td className="border border-gray-300 px-4 py-2">
-                -{currencySymbol}{invoice.discount.toFixed(2)}
-              </td>
+  -{currencySymbol}{(Number(invoice.discount) || 0).toFixed(2)}
+</td>
             </tr>
             <tr className="font-bold">
               <td className="border border-gray-300 px-4 py-2">Total</td>

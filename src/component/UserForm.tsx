@@ -19,11 +19,12 @@ interface UserFormProps {
       logo: null,
     });
   
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
-      setUser({ ...user, [name]: value });
-      onUserChange({ ...user, [name]: value });
+      setUser(prevUser => ({ ...prevUser, [name]: value || "" })); // Ensures an empty string instead of undefined
+      onUserChange({ ...user, [name]: value || "" });
     };
+    
 
   const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -78,7 +79,7 @@ interface UserFormProps {
             onChange={handleLogoChange}
             className="mt-1 w-full"
           />
-          {user.logo && <img src={user.logo} alt="Logo Preview" className="mt-2 max-h-40" />}
+          {user.logo && <img src={user.logo} alt="Logo Preview" className="mt-2 max-h-20" />}
         </div>
       </div>
     </div>
