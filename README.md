@@ -6,7 +6,7 @@ This project is a simple invoice generator built with ReactJS and TypeScript, ut
 
 * **Interactive Invoice Form:**
     * Add multiple invoice items with descriptions, prices, and quantities.
-    * Dynamically calculate item totals.
+    * Dynamically calculate item totals. 
     * Apply VAT rates and discounts.
 * **Real-time Invoice Preview:**
     * View a live preview of the invoice as you make changes.
