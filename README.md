@@ -9,7 +9,7 @@ This project is a simple invoice generator built with ReactJS and TypeScript, ut
     * Dynamically calculate item totals. 
     * Apply VAT rates and discounts.
 * **Real-time Invoice Preview:**
-    * View a live preview of the invoice as you make changes.
+    * View a live preview of the invoice as you make changes. 
     * Displays subtotal, VAT, discount, and total amounts.
 * **PDF Export:**
     * Generate and download the invoice as a PDF document.
